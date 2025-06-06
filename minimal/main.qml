@@ -23,6 +23,11 @@ Item {
         id: accelometer
 		active: true
     }
+	
+	Compass {
+		id: compass
+		active: true
+	}
   
   QfToolButton {
     id: pluginButton
@@ -34,6 +39,8 @@ Item {
     onClicked: {
 	
 		var acc = accelometer.reading
+		var az = compass.reading.azimuth
+		
 		// var G = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2)
 		var G = 9.81
 		
@@ -48,9 +55,18 @@ Item {
 		if (isNaN(plunge)) {
 			plunge = 90
 		}
+		
+		var trend = az
+		
+		var pitch = Math.asin( Math.sin( plunge * Math.PI / 180) / Math.sin ( dip * Math.PI / 180) )
+		
+		var dipdir = trend - Math.atan( Math.cos( dip * Math.PI / 180) / Math.tan ( pitch * Math.PI / 180) ) * 180 / Math.PI
 
-		mainWindow.displayToast(qsTr('dip = ' + Math.round(dip) + 
-									 '; plunge = ' + Math.round(plunge) ))
+		mainWindow.displayToast(qsTr('PLANE: dipdir = ' + Math.round(dipdir) + 
+									 '; DIP = ' + Math.round(dip) + '\n' +
+									 'LINE; trend = ' + Math.round(trend) +
+									 '; PLUNGE = ' + Math.round(plunge) )) 
+
     }
   }
 }
