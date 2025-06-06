@@ -1,0 +1,7 @@
+[general]
+name=Compass test
+description=Testing access to device compass
+author=J.-F. Moyen <jfmoyen@gmail.com>
+icon=Compass_icon.svg
+version=0.1
+homepage=https://www.opengis.ch/
